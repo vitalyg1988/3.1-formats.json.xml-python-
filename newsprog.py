@@ -1,4 +1,4 @@
-from collections import defaultdict
+import collections
 import json
 import xml.etree.ElementTree as ET
 
@@ -27,19 +27,17 @@ def get_long_words_list(words_list):
 
 
 def get_word_count(long_words_list):
-    words_dict = {}
+    words_dict = collections.Counter()
     for word in long_words_list:
-        words_dict.setdefault(word, 0)
         words_dict[word] += 1
     return words_dict
 
-
 def get_top_ten(words_dict):
-    sorted_words = sorted(words_dict.items(), key=lambda item: -item[1])
-    for count, word in enumerate(sorted_words):
-        if count > 9:
-            break
-        print(f'Слово "{word[0]}" встречается в тексте {word[1]} раза')
+    top_ten = words_dict.most_common(10)
+    print('Топ-10 самых встречающихся слов в новостях:')
+    dict(top_ten)
+    for key, value in top_ten:
+        print(f'Слово "{key}" встречается в тексте {value} раз(а)')
 
 
 if __name__ == '__main__':
